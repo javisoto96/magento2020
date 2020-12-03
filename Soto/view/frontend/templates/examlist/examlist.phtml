@@ -1,0 +1,33 @@
+<?php /** @var \Hiberus\Soto\Block\Bloque\ExamList $block */ ?>
+<h2 class="title"><?= __('Last Exams') ?></h2>
+<?php $notacorte=$block->getNotaCorte(); ?>
+<ul class="examenes">
+    <?php $contador=0;$mejornota=0;$sumanotas=0;$destacados=3;?>
+    <?php foreach($block->getLastExams() as $exam): ?>
+        <?php if($exam->getMark()>$mejornota){$mejornota=$exam->getMark();}?>
+        <?php $sumanotas+=$exam->getMark() ?>
+        <li class="examen">
+            <?php if ($destacados>0): ?> <p class="destacado">DESTACADO!!!</p> <?php endif; $destacados--;?>
+            <p>Nombre: <?=$escaper->escapeHtml($exam->getFirstName())?></p>
+            <p>Apellido: <?=$escaper->escapeHtml($exam->getLastName())?></p>
+            <p class="nota" <?php if ($exam->getMark()>=$notacorte): ?>style="background:green;"<?php else:?>style="background:red;"<?php endif;?>
+            >Nota:<?php echo $escaper->escapeHtml($exam->getMark())?></p>
+        </li>
+        <hr>
+        <?php $contador++; ?>
+    <?php endforeach; ?>
+    <input type="button" class="btn-ocultar" value="Ocultar notas">
+    <input type="button" class="btn-mostrar" style="display:none;" value="Mostrar notas">
+    <input type="button" class="btn-nota-alta" value="Nota mas alta">
+
+</ul>
+<p><?= __('Total number of students: %1', [ $contador ]) ?></p>
+<p>Nota media de la clase: <?= $sumanotas/$contador ?></p>
+
+<script type="text/x-magento-init">
+{
+    ".examenes": {
+          "Hiberus_Soto/js/examen": {"config":"<?php echo $mejornota; ?>"}
+     }
+}
+</script>

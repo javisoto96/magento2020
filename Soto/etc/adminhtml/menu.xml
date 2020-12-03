@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Hiberus_Soto::soto" title="Hiberus" translate="title" module="Hiberus_Soto" sortOrder="999" resource="Hiberus_Soto::soto"/>
+        <add id="Hiberus_Soto::soto_config" title="Configuration" translate="title" module="Hiberus_Soto" sortOrder="10" parent="Hiberus_Soto::soto" action="admin/system_config/edit/section/hiberus_soto/" resource="Hiberus_Soto::config"/>
+    </menu>
+</config>

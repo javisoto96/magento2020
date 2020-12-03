@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Preference for Reverse Dependency -->
+    <preference for="Hiberus\Soto\Api\Data\ExamInterface" type="Hiberus\Soto\Model\Exam"/>
+    <preference for="Hiberus\Soto\Api\ExamRepositoryInterface" type="Hiberus\Soto\Model\ExamRepository"/>
+    <preference for="Hiberus\Soto\Api\Data\ExamSearchResultsInterface" type="Hiberus\Soto\Model\ExamSearchResults" />
+
+    <!-- Register the Abstract Repositories -->
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Hiberus\Soto\Api\ExamInterface" xsi:type="string">Hiberus\Soto\Api\ExamRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Hiberus\Soto\Api\Data\ExamInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">hiberus_exam</item>
+                    <item name="identifierField" xsi:type="string">id_exam</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Command -->
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="hiberus:soto:show" xsi:type="object">Hiberus\Soto\Console\Command\ShowExamsCommand</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- Register the hydrator strategy for our entities -->
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Hiberus\Soto\Api\Data\ExamInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Hiberus\Soto\Logger\SampleDebug" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/hiberus_soto.log</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Hiberus\Soto\Logger\Monolog" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">Hiberus\Soto\Logger\SampleDebug</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Hiberus\Soto\Block\Bloque\ExamList">
+            <arguments>
+                <argument name="logger" xsi:type="object">Hiberus\Soto\Logger\Monolog</argument>
+            </arguments>
+    </type>
+</config>
+
+
